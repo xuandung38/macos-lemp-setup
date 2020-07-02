@@ -198,29 +198,34 @@ echo "${boldgreen}MariaDB installed and running.${txtreset}"
 echo "${yellow}Installing DNSmasq.${txtreset}"
 brew install dnsmasq
 
-#curl -L https://gist.githubusercontent.com/dtomasi/ab76d14338db82ec24a1fc137caff75b/raw/550c84393c4c1eef8a3e68bb720df561b5d3f175/dnsmasq.conf -o /usr/local/etc/dnsmasq.conf
-#sudo curl -L https://gist.githubusercontent.com/dtomasi/ab76d14338db82ec24a1fc137caff75b/raw/550c84393c4c1eef8a3e68bb720df561b5d3f175/dev -o /etc/resolver/dev
-
-sudo mkdir /etc/resolver
+echo "${yellow}Config DNSmasq.${txtreset}"
+sudo mkdir -v /etc/resolver
 
 sudo echo "address=/.app/127.0.0.1
 listen-address=127.0.0.1" > "/usr/local/etc/dnsmasq.conf"
 
-sudo echo "nameserver 127.0.0.1" > "/etc/resolver/app"
+sudo bash -c 'echo "nameserver 127.0.0.1" > /etc/resolver/app'
 
 sudo brew services stop dnsmasq
 sudo brew services start dnsmasq
+
 echo "${boldgreen}DNSmasq installed and configured.${txtreset}"
-echo "${yellow}Restarting services....${txtreset}"
+echo "${yellow}Restarting LEMP services....${txtreset}"
+
 # These need to be running as root, because of the port 80 and other privileges.
+
 sudo brew services stop dnsmasq
 sudo brew services start dnsmasq
+
 sudo brew services stop nginx
 sudo brew services start nginx
+
 sudo brew services stop php@7.4
 sudo brew services start php@7.4
+
 brew services stop mariadb
 brew services start mariadb
+
 sudo brew services list
 
 echo "${boldgreen}You should now be able to use http://localhost. If not, test with commands sudo nginx -t and sudo php-fpm -t and fix errors. Add new vhosts to /etc/nginx/sites-available and symlink them just like you would do in production. Have fun!${txtreset}"
