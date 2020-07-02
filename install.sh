@@ -191,8 +191,11 @@ brew install dnsmasq
 #curl -L https://gist.githubusercontent.com/dtomasi/ab76d14338db82ec24a1fc137caff75b/raw/550c84393c4c1eef8a3e68bb720df561b5d3f175/dnsmasq.conf -o /usr/local/etc/dnsmasq.conf
 #sudo curl -L https://gist.githubusercontent.com/dtomasi/ab76d14338db82ec24a1fc137caff75b/raw/550c84393c4c1eef8a3e68bb720df561b5d3f175/dev -o /etc/resolver/dev
 
+sudo mkdir /etc/resolver
+
 sudo echo "address=/.app/127.0.0.1
 listen-address=127.0.0.1" > "/usr/local/etc/dnsmasq.conf"
+
 sudo echo "nameserver 127.0.0.1" > "/etc/resolver/app"
 
 sudo brew services stop dnsmasq
