@@ -148,18 +148,18 @@ echo "${yellow}Installing PHP.${txtreset}"
 brew tap homebrew/dupes
 brew tap homebrew/versions
 brew tap homebrew/homebrew-php
-brew install php@7.2
+brew install php@7.4
 mkdir -p ~/Library/LaunchAgents
-cp /usr/local/opt/php@7.2/homebrew.mxcl.php@7.2.plist ~/Library/LaunchAgents/
-launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php@7.2.plist
+cp /usr/local/opt/php@7.4/homebrew.mxcl.php@7.4.plist ~/Library/LaunchAgents/
+launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.php@7.4.plist
 lsof -Pni4 | grep LISTEN | grep php
-sudo touch /var/log/fpm7.2-php.slow.log
-sudo chmod 775 /var/log/fpm7.2-php.slow.log
-sudo chown "$USER":staff /var/log/fpm7.2-php.slow.log
-sudo touch /var/log/fpm7.2-php.www.log
-sudo chmod 775 /var/log/fpm7.2-php.www.log
-sudo chown "$USER":staff /var/log/fpm7.2-php.www.log
-sudo echo "export PATH=\"\$(brew --prefix php@7.2)/bin:\$PATH\"" >> ~/.bashrc
+sudo touch /var/log/fpm7.4-php.slow.log
+sudo chmod 775 /var/log/fpm7.4-php.slow.log
+sudo chown "$USER":staff /var/log/fpm7.4-php.slow.log
+sudo touch /var/log/fpm7.4-php.www.log
+sudo chmod 775 /var/log/fpm7.4-php.www.log
+sudo chown "$USER":staff /var/log/fpm7.4-php.www.log
+sudo echo "export PATH=\"\$(brew --prefix php@7.4)/bin:\$PATH\"" >> ~/.bashrc
 echo "${boldgreen}PHP installed and running.${txtreset}"
 echo "${yellow}Installing MariaDB.${txtreset}"
 brew install mariadb
@@ -186,8 +186,14 @@ skip-name-resolve" > "/usr/local/etc/my.cnf"
 echo "${boldgreen}MariaDB installed and running.${txtreset}"
 echo "${yellow}Installing DNSmasq.${txtreset}"
 brew install dnsmasq
-curl -L https://gist.githubusercontent.com/dtomasi/ab76d14338db82ec24a1fc137caff75b/raw/550c84393c4c1eef8a3e68bb720df561b5d3f175/dnsmasq.conf -o /usr/local/etc/dnsmasq.conf
-sudo curl -L https://gist.githubusercontent.com/dtomasi/ab76d14338db82ec24a1fc137caff75b/raw/550c84393c4c1eef8a3e68bb720df561b5d3f175/dev -o /etc/resolver/dev
+
+#curl -L https://gist.githubusercontent.com/dtomasi/ab76d14338db82ec24a1fc137caff75b/raw/550c84393c4c1eef8a3e68bb720df561b5d3f175/dnsmasq.conf -o /usr/local/etc/dnsmasq.conf
+#sudo curl -L https://gist.githubusercontent.com/dtomasi/ab76d14338db82ec24a1fc137caff75b/raw/550c84393c4c1eef8a3e68bb720df561b5d3f175/dev -o /etc/resolver/dev
+
+sudo echo "address=/.app/127.0.0.1
+listen-address=127.0.0.1" > "/usr/local/etc/dnsmasq.conf"
+sudo echo "nameserver 127.0.0.1" > "/etc/resolver/app"
+
 sudo brew services stop dnsmasq
 sudo brew services start dnsmasq
 echo "${boldgreen}DNSmasq installed and configured.${txtreset}"
@@ -197,8 +203,8 @@ sudo brew services stop dnsmasq
 sudo brew services start dnsmasq
 sudo brew services stop nginx
 sudo brew services start nginx
-sudo brew services stop php@7.2
-sudo brew services start php@7.2
+sudo brew services stop php@7.4
+sudo brew services start php@7.4
 brew services stop mariadb
 brew services start mariadb
 sudo brew services list
