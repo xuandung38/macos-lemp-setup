@@ -22,7 +22,14 @@ brew doctor
 brew update && brew upgrade
 echo "${boldgreen}Dependencies installed and up to date.${txtreset}"
 echo "${yellow}Installing nginx.${txtreset}"
-brew tap homebrew/nginx
+
+#brew tap homebrew/nginx | Don't need it anymore
+#Stop apachectl if it installed on MacOs
+sudo apachectl stop
+sudo launchctl unload -w /System/Library/LaunchDaemons/org.apache.httpd.plist 2>/dev/null
+
+#install nginx
+
 brew install nginx
 sudo brew services start nginx
 curl -IL http://127.0.0.1:8080
@@ -162,6 +169,8 @@ sudo touch /var/log/fpm7.4-php.www.log
 sudo chmod 775 /var/log/fpm7.4-php.www.log
 sudo chown "$USER":staff /var/log/fpm7.4-php.www.log
 sudo echo "export PATH=\"\$(brew --prefix php@7.4)/bin:\$PATH\"" >> ~/.bashrc
+#Just make sure php switch to 7.4 
+brew link --force php@7.4
 echo "${boldgreen}PHP installed and running.${txtreset}"
 echo "${yellow}Installing MariaDB.${txtreset}"
 brew install mariadb
