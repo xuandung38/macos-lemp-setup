@@ -145,6 +145,7 @@ sudo echo "server {
 }" > "/etc/nginx/sites-available/default"
 sudo ln -sfnv /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 echo "${yellow}Installing PHP.${txtreset}"
+brew tap exolnet/homebrew-deprecated
 brew tap homebrew/dupes
 brew tap homebrew/versions
 brew tap homebrew/homebrew-php
