@@ -145,10 +145,11 @@ sudo echo "server {
 }" > "/etc/nginx/sites-available/default"
 sudo ln -sfnv /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 echo "${yellow}Installing PHP.${txtreset}"
+
+#Homebrew by default only supports php versions with support, run the following command to be able to install deprecated versions like 5.6 or 7.0
+
 brew tap exolnet/homebrew-deprecated
-brew tap homebrew/dupes
-brew tap homebrew/versions
-brew tap homebrew/homebrew-php
+
 brew install php@7.4
 mkdir -p ~/Library/LaunchAgents
 cp /usr/local/opt/php@7.4/homebrew.mxcl.php@7.4.plist ~/Library/LaunchAgents/
